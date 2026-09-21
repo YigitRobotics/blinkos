@@ -2,10 +2,11 @@
 
 cd src
 
-rm ../blinkos.iso ../root/boot/kernel.bin boot.o kernel_c.o kernel.bin
+rm ../blinkos.iso ../root/boot/kernel.bin boot.o kernel_c.o kernel.bin vga.o
 i686-elf-as --32 boot.s -o boot.o
 i686-elf-gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -c kernel.c -o kernel_c.o
-i686-elf-gcc -m32 -T linker.ld -ffreestanding -nostdlib -o kernel.bin boot.o kernel_c.o -lgcc
+i686-elf-gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -c vga/vga.c -o vga.o
+i686-elf-gcc -m32 -T linker.ld -ffreestanding -nostdlib -o kernel.bin boot.o vga.o kernel_c.o -lgcc
 
 cp kernel.bin ../root/boot
 cd ..
