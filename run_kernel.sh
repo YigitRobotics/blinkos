@@ -1,3 +1,3 @@
 #!/bin/sh
 
-emu-system-i386 -cdrom blinkos.iso -display sdl
+qemu-system-i386 -cdrom blinkos.iso -display sdl
