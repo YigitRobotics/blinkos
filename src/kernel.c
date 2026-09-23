@@ -33,7 +33,7 @@ void kernel_main(void) {
     delay_cycles(10000000);
     terminal_clear();
 
-    panic("ocuz abi");
+    panic("Testing kernel panic. This is a test message to see if the kernel panic function works correctly.");
     while (1)
     {
       __asm__ volatile ("hlt"); // sleep kernel until a interrupt triggers 
