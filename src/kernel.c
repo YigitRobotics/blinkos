@@ -1,4 +1,7 @@
+struct VGA_cursor;
+
 #include "include/kernel.h"
+#include "include/gdt.h"
 #include "include/vga.h"
 
 void cli() {
@@ -18,6 +21,14 @@ void delay_cycles(unsigned int cycles) {
 }
 
 void kernel_main(void) {
+    struct VGA_cursor cursor = {1, 1};
+
+    flush_gdt();
+    terminal_write_current("[LOG] GDT Loaded", &cursor);
+    terminal_write_current("[LOG] Kernel Loaded. Redirecting...", &cursor);
+    delay_cycles(10000000);
+    terminal_clear();
+
     terminal_write("BlinkOS Kernel", 1, 1);
     delay_cycles(10000000);
     terminal_clear();

@@ -8,6 +8,12 @@ void terminal_write(const char msg[], int x, int y) {
     }
 }
 
+void terminal_write_current(const char msg[], struct VGA_cursor *vga_cursor_index) {
+    terminal_write(msg, vga_cursor_index->x, vga_cursor_index->y);
+    vga_cursor_index->x++;
+    vga_cursor_index->y++;
+}
+
 void terminal_clear() {
     for (int i = 0; i < 2000; i++) {
         TEXT_VGA_BUFFER[i * 2] = ' ';
