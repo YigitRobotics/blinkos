@@ -3,6 +3,7 @@ struct VGA_cursor;
 #include "include/kernel.h"
 #include "include/gdt.h"
 #include "include/vga.h"
+#include "include/interrupt.h"
 
 void cli() {
     __asm__ volatile ("cli");
@@ -25,6 +26,9 @@ void kernel_main(void) {
 
     flush_gdt();
     terminal_write_current("[LOG] GDT Loaded", &cursor);
+    install_idt();
+    terminal_write_current("[LOG] IDT Loaded", &cursor);
+
     terminal_write_current("[LOG] Kernel Loaded. Redirecting...", &cursor);
     delay_cycles(10000000);
     terminal_clear();
