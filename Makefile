@@ -40,7 +40,7 @@ kernel.bin: $(OBJS)
 	$(NASM) $(NASMFLAGS) $< -o $@
 
 run: $(ISO)
-	qemu-system-i386 -cdrom $(ISO) -display sdl
+	qemu-system-i386 -cdrom $(ISO) -display sdl -debugcon stdio
 
 clean:
 	find src \( -name '*.o' \) -delete
