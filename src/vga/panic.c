@@ -7,8 +7,8 @@ void panic(const char *msg) {
     cli();
 
     terminal_clear();
-    terminal_write("KERNEL PANIC!", 1, 1);
-    terminal_write(msg, 2, 2);
+    terminal_write("KERNEL PANIC!", 1, 1, RED_COLOR);
+    terminal_write(msg, 2, 2, GRAY_COLOR);
 
     while (1)
     {

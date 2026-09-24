@@ -4,6 +4,7 @@ struct VGA_cursor;
 #include "include/gdt.h"
 #include "include/vga.h"
 #include "include/interrupt.h"
+#include "include/io.h"
 
 void cli() {
     __asm__ volatile ("cli");
@@ -21,6 +22,13 @@ void delay_cycles(unsigned int cycles) {
     
 }
 
+void test_io() {
+    char testing[] = "Testing I/O Ports";
+    for (int i = 0; testing[i] != '\0'; i++) {
+        outb(0xE9, testing[i]); // qemu debug console port
+    }
+}
+
 void kernel_main(void) {
     struct VGA_cursor cursor = {1, 1};
 
@@ -33,7 +41,8 @@ void kernel_main(void) {
     delay_cycles(10000000);
     terminal_clear();
 
-    terminal_write("BlinkOS Kernel", 1, 1);
+    test_io();
+    terminal_write("BlinkOS Kernel BY YigitRobotics", 1, 1, GREEN_COLOR);
     delay_cycles(10000000);
     terminal_clear();
 
