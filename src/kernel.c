@@ -10,6 +10,10 @@ void cli() {
     __asm__ volatile ("cli");
 }
 
+void sti() {
+    __asm__ volatile ("sti");
+}
+
 void hlt() {
     __asm__ volatile("hlt");
 }
@@ -32,11 +36,14 @@ void test_io() {
 void kernel_main(void) {
     struct VGA_cursor cursor = {1, 1};
 
+    cli();
     flush_gdt();
     terminal_write_current("[LOG] GDT Loaded", &cursor);
     install_idt();
     terminal_write_current("[LOG] IDT Loaded", &cursor);
-
+    install_interrupt_handlers();
+    pic_remap();
+    terminal_write_current("[LOG] PIC Remap Successful!", &cursor);
     terminal_write_current("[LOG] Kernel Loaded. Redirecting...", &cursor);
     delay_cycles(10000000);
     terminal_clear();
@@ -45,8 +52,11 @@ void kernel_main(void) {
     terminal_write("BlinkOS Kernel BY YigitRobotics", 1, 1, GREEN_COLOR);
     delay_cycles(10000000);
     terminal_clear();
+    sti();
 
-    panic("Testing kernel panic. This is a test message to see if the kernel panic function works correctly.");
+    char buff[] = "blish~$ ";
+    terminal_write(buff, 1, 1, GREEN_COLOR);
+
     while (1)
     {
       __asm__ volatile ("hlt"); // sleep kernel until a interrupt triggers 
